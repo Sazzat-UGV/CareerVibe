@@ -26,10 +26,11 @@ Route::group(['account'], function () {
         Route::get('/account/login', [AccountController::class, 'login'])->name('account.login');
         Route::post('/account/authenticate', [AccountController::class, 'authenticate'])->name('account.authenticate');
     });
-    
+
     // Authenticated Route
     Route::middleware('auth')->group(function () {
         Route::get('/account/profile', [AccountController::class, 'profile'])->name('account.profile');
+        Route::put('/update/profile', [AccountController::class, 'updateProfile'])->name('account.updateProfile');
         Route::get('/account/logout', [AccountController::class, 'logout'])->name('account.logout');
     });
 });

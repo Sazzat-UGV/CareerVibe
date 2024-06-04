@@ -7,16 +7,7 @@
         <div class="container my-5">
             <div class="py-lg-2">&nbsp;</div>
             <div class="row d-flex justify-content-center">
-                @if (Session::has('success'))
-                    <div class="alert alert-success">
-                        <p class="mb-0 pb-0">{{ Session::get('success') }}</p>
-                    </div>
-                @endif
-                @if (Session::has('error'))
-                    <div class="alert alert-danger">
-                        <p class="mb-0 pb-0">{{ Session::get('error') }}</p>
-                    </div>
-                @endif
+@include('frontend.message')
                 <div class="col-md-5">
                     <div class="card shadow border-0 p-5">
                         <h1 class="h3">Login</h1>
