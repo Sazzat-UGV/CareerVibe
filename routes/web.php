@@ -32,5 +32,6 @@ Route::group(['account'], function () {
         Route::get('/account/profile', [AccountController::class, 'profile'])->name('account.profile');
         Route::put('/update/profile', [AccountController::class, 'updateProfile'])->name('account.updateProfile');
         Route::get('/account/logout', [AccountController::class, 'logout'])->name('account.logout');
+        Route::post('/update-profile-pic', [AccountController::class, 'updateProfilePic'])->name('account.updateProfilePic');
     });
 });
