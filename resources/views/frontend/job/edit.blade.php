@@ -107,7 +107,7 @@
                                         placeholder="Qualifications">{{ $job->qualifications }}</textarea>
                                 </div>
 
-                                <div class="col-md-6 mb-4">
+                                <div class="col-md-12 mb-4">
                                     <label for="" class="mb-2">Experience<span class="req">*</span></label>
                                     <select class="form-select" name="experience" name="experience">
                                         <option value="1" {{ $job->experience == 1 ? 'selected' : '' }}>1 Year</option>
