@@ -49,49 +49,69 @@
                                                 <tr class="active">
                                                     <td>
                                                         <div class="job-name fw-500">{{ $job->title }}</div>
-                                                        <div class="info1">{{ $job->jobType->name }} . {{ $job->location }}</div>
+                                                        <div class="info1">{{ $job->jobType->name }} . {{ $job->location }}
+                                                        </div>
                                                     </td>
                                                     <td>{{ $job->created_at->format('d M, Y') }}</td>
                                                     <td>0 Applications</td>
                                                     <td>
-                                                        @if ($job->status==1)
-                                                        <div class="job-status text-capitalize">
-                                                            <span class="badge bg-success">Active</span>
-                                                        @else
-                                                        <span class="badge bg-danger">Close</span>
-                                                        @endif</div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="action-dots float-end">
-                                                            <a href="#" class="" data-bs-toggle="dropdown"
-                                                                aria-expanded="false">
-                                                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                                                            </a>
-                                                            <ul class="dropdown-menu dropdown-menu-end">
-                                                                <li><a class="dropdown-item" href="job-detail.html"> <i
-                                                                            class="fa fa-eye" aria-hidden="true"></i>
-                                                                        View</a></li>
-                                                                <li><a class="dropdown-item" href="{{ route('account.editJob',['id'=>$job->id]) }}"><i
-                                                                            class="fa fa-edit" aria-hidden="true"></i>
-                                                                        Edit</a></li>
-                                                                <li><a class="dropdown-item" href="#"><i
-                                                                            class="fa fa-trash" aria-hidden="true"></i>
-                                                                        Remove</a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        @endforeach
-                                    @endif
-                                </table>
+                                                        @if ($job->status == 1)
+                                                            <div class="job-status text-capitalize">
+                                                                <span class="badge bg-success">Active</span>
+                                                            @else
+                                                                <span class="badge bg-danger">Close</span>
+                                                        @endif
                             </div>
-                            <div>
-                                {{ $jobs->links() }}
-                            </div>
+                            </td>
+                            <td>
+                                <div class="action-dots float-end">
+                                    <a href="#" class="" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item" href="job-detail.html"> <i class="fa fa-eye"
+                                                    aria-hidden="true"></i>
+                                                View</a></li>
+                                        <li><a class="dropdown-item"
+                                                href="{{ route('account.editJob', ['id' => $job->id]) }}"><i class="fa fa-edit"
+                                                    aria-hidden="true"></i>
+                                                Edit</a></li>
+                                        <li><a class="dropdown-item" href="#"
+                                                onclick="deleteJob({{ $job->id }})"><i class="fa fa-trash"
+                                                    aria-hidden="true"></i>
+                                                Delete</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                            </tr>
+                            </tbody>
+                            @endforeach
+                            @endif
+                            </table>
+                        </div>
+                        <div>
+                            {{ $jobs->links() }}
                         </div>
                     </div>
-                @endsection
+                </div>
+            @endsection
 
-                @section('customJs')
-                @endsection
+            @section('customJs')
+                <script>
+                    function deleteJob(jobId) {
+                        if (confirm('Are you sure you want to delete?')) {
+                            $.ajax({
+                                url: '{{ route('account.deleteJob') }}',
+                                type: 'post',
+                                data: {
+                                    jobId: jobId
+                                },
+                                dataType: 'json',
+                                success: function(response) {
+                                    window.location.href='{{ route('account.myJobs') }}'
+                                }
+                            })
+                        }
+                    }
+                </script>
+            @endsection
