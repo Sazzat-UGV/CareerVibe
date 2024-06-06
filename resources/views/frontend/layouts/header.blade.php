@@ -12,14 +12,14 @@
                         <a class="nav-link" aria-current="page" href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="jobs.html">Find Jobs</a>
+                        <a class="nav-link" aria-current="page" href="{{ route('jobs') }}">Find Jobs</a>
                     </li>
                 </ul>
                 @auth
-                <a class="btn btn-outline-primary me-2" href="{{ route('account.profile') }}" type="submit">Account</a>
+                    <a class="btn btn-outline-primary me-2" href="{{ route('account.profile') }}" type="submit">Account</a>
                 @endauth
                 @guest
-                <a class="btn btn-outline-primary me-2" href="{{ route('account.login') }}" type="submit">Login</a>
+                    <a class="btn btn-outline-primary me-2" href="{{ route('account.login') }}" type="submit">Login</a>
                 @endguest
                 <a class="btn btn-primary" href="{{ route('account.createJob') }}" type="submit">Post a Job</a>
             </div>

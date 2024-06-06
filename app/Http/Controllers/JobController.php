@@ -141,19 +141,26 @@ class JobController extends Controller
 
     public function deleteJob(Request $request)
     {
-        $job=Job::where('user_id', Auth::user()->id)->where('id', $request->jobId)->first();
+        $job = Job::where('user_id', Auth::user()->id)->where('id', $request->jobId)->first();
 
-        if($job==null){
-            session()->flash('error','Either job deleted or not found.');
+        if ($job == null) {
+            session()->flash('error', 'Either job deleted or not found.');
             return response()->json([
-                'status'=>true,
+                'status' => true,
             ]);
         }
         Job::where('id', $request->jobId)->delete();
-        session()->flash('success','Job deleted successfully.');
+        session()->flash('success', 'Job deleted successfully.');
         return response()->json([
-            'status'=>true,
+            'status' => true,
         ]);
     }
-
+    //This method will show jobs page
+    public function index()
+    {
+        $categories=Category::where('status',1)->get();
+        $jobTypes=JobType::where('status',1)->get();
+        $jobs=Job::with('jobType:id,name')->where('status',1)->orderBy('created_at','DESC')->paginate(9);
+        return view('frontend.jobs',compact(['categories','jobTypes','jobs']));
+    }
 }
