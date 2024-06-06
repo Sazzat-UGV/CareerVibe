@@ -26,13 +26,13 @@
                             <div class="card-body  p-4">
                                 <h3 class="fs-4 mb-1">My Profile</h3>
                                 <div class="mb-4">
-                                    <label for="" class="mb-2">Name*</label>
+                                    <label for="" class="mb-2">Name<span class="req">*</span></label>
                                     <input type="text" name="name" id="name" value="{{ Auth::user()->name }}"
                                         placeholder="Enter Name" class="form-control" value="">
                                     <p></p>
                                 </div>
                                 <div class="mb-4">
-                                    <label for="" class="mb-2">Email*</label>
+                                    <label for="" class="mb-2">Email<span class="req">*</span></label>
                                     <input type="text" name="email" id="email" value="{{ Auth::user()->email }}"
                                         placeholder="Enter Email" class="form-control">
                                     <p></p>
@@ -59,15 +59,15 @@
                         <div class="card-body p-4">
                             <h3 class="fs-4 mb-1">Change Password</h3>
                             <div class="mb-4">
-                                <label for="" class="mb-2">Old Password*</label>
+                                <label for="" class="mb-2">Old Password<span class="req">*</span></label>
                                 <input type="password" placeholder="Old Password" class="form-control">
                             </div>
                             <div class="mb-4">
-                                <label for="" class="mb-2">New Password*</label>
+                                <label for="" class="mb-2">New Password<span class="req">*</span></label>
                                 <input type="password" placeholder="New Password" class="form-control">
                             </div>
                             <div class="mb-4">
-                                <label for="" class="mb-2">Confirm Password*</label>
+                                <label for="" class="mb-2">Confirm Password<span class="req">*</span></label>
                                 <input type="password" placeholder="Confirm Password" class="form-control">
                             </div>
                         </div>

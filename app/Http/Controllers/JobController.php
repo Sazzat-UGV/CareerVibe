@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Job;
 use App\Models\JobType;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class JobController extends Controller
@@ -40,6 +41,7 @@ class JobController extends Controller
             $job->title = $request->title;
             $job->category_id = $request->category;
             $job->job_type_id = $request->job_type;
+            $job->user_id = Auth::user()->id;
             $job->vacancy = $request->vacancy;
             $job->salary = $request->salary;
             $job->location = $request->location;
@@ -68,6 +70,7 @@ class JobController extends Controller
     }
 
     public function myJobs(){
-        return view('frontend.job.my-jobs');
+        $jobs=Job::with(['jobType:id,name'])->where('user_id',Auth::user()->id)->latest('id')->paginate(10);
+        return view('frontend.job.my-jobs',compact(['jobs']));
     }
 }

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,10 +13,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\Category::factory(5)->create();
-        $this->call([
-            CategorySeeder::class,
-            JobTypeSeeder::class,
-        ]);
+        // $this->call([
+        //     UserSeeder::class,
+        //     CategorySeeder::class,
+        //     JobTypeSeeder::class,
+        // ]);
+
+        \App\Models\Job::factory(10)->create();
+
     }
 }
