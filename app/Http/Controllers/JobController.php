@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\JobNotificationEmail;
 use App\Models\Category;
 use App\Models\Job;
 use App\Models\JobApplication;
 use App\Models\JobType;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class JobController extends Controller
@@ -226,8 +229,8 @@ class JobController extends Controller
             ]);
         }
         // you can not apply on your own job
-        $employer_id=$job->user_id;
-        if($employer_id==Auth::user()->id){
+        $employer_id = $job->user_id;
+        if ($employer_id == Auth::user()->id) {
             session()->flash('error', 'You can not apply on your own job.');
             return response()->json([
                 'status' => false,
@@ -236,8 +239,8 @@ class JobController extends Controller
         }
 
         // you can not apply on a job twise
-        $jobApplication= JobApplication::where(['user_id'=>Auth::user()->id,'job_id'=>$id])->count();
-        if($jobApplication >0){
+        $jobApplication = JobApplication::where(['user_id' => Auth::user()->id, 'job_id' => $id])->count();
+        if ($jobApplication > 0) {
             session()->flash('error', 'You already applied on this job.');
             return response()->json([
                 'status' => false,
@@ -245,18 +248,50 @@ class JobController extends Controller
             ]);
         }
 
-
-        $application=new JobApplication();
-        $application->job_id=$id;
-        $application->user_id=Auth::user()->id;
-        $application->employer_id=$employer_id;
-        $application->applied_date=now();
+        $application = new JobApplication();
+        $application->job_id = $id;
+        $application->user_id = Auth::user()->id;
+        $application->employer_id = $employer_id;
+        $application->applied_date = now();
         $application->save();
+
+        //send notification email to employer
+        $employer = User::where('id', $employer_id)->first();
+        $mailData = [
+            'employer' => $employer,
+            'user' => Auth::user(),
+            'job' => $job,
+        ];
+        Mail::to($employer->email)->send(new JobNotificationEmail($mailData));
 
         session()->flash('success', 'You have successfully applied.');
         return response()->json([
             'status' => false,
             'message' => 'You have successfully applied.',
+        ]);
+    }
+
+    public function myJobApplications()
+    {
+        $jobApplications = JobApplication::with(['job', 'job.jobType', 'job.applications'])->where('user_id', Auth::user()->id)->latest('id')->paginate(10);
+
+        return view('frontend.job.my-job-application', compact('jobApplications'));
+    }
+
+    public function removeJobs(Request $request)
+    {
+        $jobApplication = JobApplication::where(['id' => $request->id, 'user_id' => Auth::user()->id])->first();
+        if ($jobApplication == null) {
+            session()->flash('error', 'Job application not found.');
+            return response()->json([
+                'status' => false,
+            ]);
+        }
+
+        JobApplication::findOrfail($request->id)->delete();
+        session()->flash('success', 'Job application remove successfully.');
+        return response()->json([
+            'status' => true,
         ]);
     }
 }
