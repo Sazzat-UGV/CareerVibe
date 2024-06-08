@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="jobs_right">
                                     <div class="apply_now">
-                                        <a class="heart_mark" href="#"> <i class="fa fa-heart-o"
+                                        <a class="heart_mark {{ ($count==1)?'saved-job':'' }}" href="javascript:void(0);" onclick="saveJob({{ $job->id }})"> <i class="fa fa-heart-o"
                                                 aria-hidden="true"></i></a>
                                     </div>
                                 </div>
@@ -76,7 +76,12 @@
                             </div>
                             <div class="border-bottom"></div>
                             <div class="pt-3 text-end">
-                                <a href="#" class="btn btn-secondary">Save</a>
+
+                                @if (Auth::check())
+                                <a href="#" class="btn btn-secondary" onclick="saveJob({{ $job->id }})">Save</a>
+                                @else
+                                    <a href="javascript:void(0);" class="btn btn-primary disabled">Login to Save</a>
+                                @endif
                                 @if (Auth::check())
                                     <a href="#" onclick="applyJob({{ $job->id }})"
                                         class="btn btn-primary">Apply</a>
@@ -142,6 +147,22 @@
             if (confirm("Are you sure you want to apply this job?")) {
                 $.ajax({
                     url: '{{ route("job.applyJob") }}',
+                    type: 'post',
+                    data: {
+                        id: id,
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        console.log(response);
+                        window.location.href="{{ url()->current() }}";
+                    }
+                });
+            }
+        }
+        function saveJob(id) {
+            if (confirm("Are you sure you want to save this job?")) {
+                $.ajax({
+                    url: '{{ route("job.savedJob") }}',
                     type: 'post',
                     data: {
                         id: id,
