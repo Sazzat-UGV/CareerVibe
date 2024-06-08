@@ -214,8 +214,12 @@ class JobController extends Controller
         if ($job == null) {
             abort(404);
         }
-        $count = SavedJob::where(['user_id' => Auth::user()->id, 'job_id' => $id])->count();
-        return view('frontend.jobDetail', compact(['job','count']));
+        $count=0;
+        if (Auth::user()) {
+            $count = SavedJob::where(['user_id' => Auth::user()->id, 'job_id' => $id])->count();
+        }
+
+        return view('frontend.jobDetail', compact(['job', 'count']));
     }
 
     public function applyJob(Request $request)
@@ -326,9 +330,10 @@ class JobController extends Controller
             'status' => false,
         ]);
     }
-    public function mySavedJobs(){
+    public function mySavedJobs()
+    {
         $savedJobs = SavedJob::with(['job', 'job.jobType', 'job.applications'])->where('user_id', Auth::user()->id)->latest('id')->paginate(10);
-        return view('frontend.job.saved-jobs',compact('savedJobs'));
+        return view('frontend.job.saved-jobs', compact('savedJobs'));
     }
 
     public function removeSavedJobs(Request $request)
