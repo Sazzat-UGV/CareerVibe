@@ -54,6 +54,7 @@
     <script src="{{ asset('assets') }}/js/instantpages.5.1.0.min.js"></script>
     <script src="{{ asset('assets') }}/js/lazyload.17.6.0.min.js"></script>
     <script src="{{ asset('assets') }}/js/custom.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
     <script>
         $.ajaxSetup({
             headers: {
@@ -83,8 +84,49 @@
                 }
             });
         })
+
     </script>
-    @yield('customJs')
+ <script>
+    ClassicEditor
+            .create( document.querySelector( '#description' ) )
+            .then( editor => {
+                    console.log( editor );
+            } )
+            .catch( error => {
+                    console.error( error );
+            } );
+</script>
+ <script>
+    ClassicEditor
+            .create( document.querySelector( '#benefits' ) )
+            .then( editor => {
+                    console.log( editor );
+            } )
+            .catch( error => {
+                    console.error( error );
+            } );
+</script>
+ <script>
+    ClassicEditor
+            .create( document.querySelector( '#responsibility' ) )
+            .then( editor => {
+                    console.log( editor );
+            } )
+            .catch( error => {
+                    console.error( error );
+            } );
+</script>
+ <script>
+    ClassicEditor
+            .create( document.querySelector( '#qualifications' ) )
+            .then( editor => {
+                    console.log( editor );
+            } )
+            .catch( error => {
+                    console.error( error );
+            } );
+</script>
+ @yield('customJs')
 </body>
 
 </html>

@@ -50,13 +50,13 @@
                         <div class="descript_wrap white-bg">
                             <div class="single_wrap">
                                 <h4>Job description</h4>
-                                {!! nl2br($job->description) !!}
+                                {!! $job->description !!}
                             </div>
                             <div class="single_wrap">
                                 @if (!empty($job->responsibility))
                                     <h4>Responsibility</h4>
                                     <ul>
-                                        {!! nl2br($job->responsibility) !!}
+                                        {!! $job->responsibility !!}
                                     </ul>
                                 @endif
                             </div>
@@ -64,14 +64,14 @@
                                 @if (!empty($job->qualifications))
                                     <h4>Qualifications</h4>
                                     <ul>
-                                        {!! nl2br($job->qualifications) !!}
+                                        {!! $job->qualifications !!}
                                     </ul>
                                 @endif
                             </div>
                             <div class="single_wrap">
                                 @if (!empty($job->benefits))
                                     <h4>Benefits</h4>
-                                    {!! nl2br($job->benefits) !!}
+                                    {!! $job->benefits !!}
                                 @endif
                             </div>
                             <div class="border-bottom"></div>
