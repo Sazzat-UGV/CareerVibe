@@ -291,7 +291,7 @@ class JobController extends Controller
         }
 
         JobApplication::findOrfail($request->id)->delete();
-        session()->flash('success', 'Job application remove successfully.');
+        session()->flash('success', 'Job application removed successfully.');
         return response()->json([
             'status' => true,
         ]);
@@ -324,6 +324,27 @@ class JobController extends Controller
         session()->flash('success', 'You have successfully saved the job.');
         return response()->json([
             'status' => false,
+        ]);
+    }
+    public function mySavedJobs(){
+        $savedJobs = SavedJob::with(['job', 'job.jobType', 'job.applications'])->where('user_id', Auth::user()->id)->latest('id')->paginate(10);
+        return view('frontend.job.saved-jobs',compact('savedJobs'));
+    }
+
+    public function removeSavedJobs(Request $request)
+    {
+        $savedJob = SavedJob::where(['id' => $request->id, 'user_id' => Auth::user()->id])->first();
+        if ($savedJob == null) {
+            session()->flash('error', 'Job not found.');
+            return response()->json([
+                'status' => false,
+            ]);
+        }
+
+        SavedJob::findOrfail($request->id)->delete();
+        session()->flash('success', 'Job removed successfully.');
+        return response()->json([
+            'status' => true,
         ]);
     }
 }
