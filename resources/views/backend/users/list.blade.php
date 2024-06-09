@@ -59,7 +59,7 @@
                                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><a class="dropdown-item" href="#"><i class="fa fa-edit"
+                                        <li><a class="dropdown-item" href="{{ route('admin.users.edit',$user->id) }}"><i class="fa fa-edit"
                                                     aria-hidden="true"></i>
                                                 Edit</a></li>
                                         <li><a class="dropdown-item" href="#"><i class="fa fa-trash"
