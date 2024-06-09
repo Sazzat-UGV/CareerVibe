@@ -17,6 +17,9 @@
                 </ul>
                 @auth
                     <a class="btn btn-outline-primary me-2" href="{{ route('account.profile') }}" type="submit">Account</a>
+                    @if (Auth::user()->role=='admin')
+                    <a class="btn btn-outline-primary me-2" href="{{ route('admin.dashboard') }}" type="submit">Admin Panel</a>
+                    @endif
                 @endauth
                 @guest
                     <a class="btn btn-outline-primary me-2" href="{{ route('account.login') }}" type="submit">Login</a>

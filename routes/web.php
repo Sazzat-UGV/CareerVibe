@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobController;
 use Illuminate\Support\Facades\Route;
@@ -22,8 +23,13 @@ Route::get('/jobs/detail/{id}', [JobController::class, 'detail'])->name('job.det
 Route::post('/apply-job', [JobController::class, 'applyJob'])->name('job.applyJob');
 Route::post('/saved-job', [JobController::class, 'savedJob'])->name('job.savedJob');
 
-Route::prefix('account')->group(function () {
+// admin route
+Route::prefix('admin')->middleware(['checkRole'])->group(function () {
+Route::get('/dashboard',[DashboardController::class,'index'])->name('admin.dashboard');
+});
 
+
+Route::prefix('account')->group(function () {
     // Guest Route
     Route::middleware('guest')->group(function () {
         Route::get('/register', [AccountController::class, 'registration'])->name('account.registration');
