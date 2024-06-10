@@ -41,48 +41,68 @@
                                         </tr>
                                     </thead>
                                     @if ($users->isNotEmpty())
-                                        @foreach ($users as $index=>$user)
+                                        @foreach ($users as $index => $user)
                                             <tbody class="border-0">
                                                 <tr class="active">
                                                     <td>
-                                                        <div class="job-name fw-500">{{ $index+1 }}</div>
+                                                        <div class="job-name fw-500">{{ $index + 1 }}</div>
                                                     </td>
                                                     <td>
                                                         <div class="job-name fw-500">{{ $user->name }}</div>
                                                     </td>
-                                                    <td>{{ $user->email}}</td>
-                                                    <td>{{ $user->mobile}}</td>
+                                                    <td>{{ $user->email }}</td>
+                                                    <td>{{ $user->mobile }}</td>
 
-                            <td>
-                                <div class="action-dots ">
-                                    <a href="#" class="" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><a class="dropdown-item" href="{{ route('admin.users.edit',$user->id) }}"><i class="fa fa-edit"
-                                                    aria-hidden="true"></i>
-                                                Edit</a></li>
-                                        <li><a class="dropdown-item" href="#"><i class="fa fa-trash"
-                                                    aria-hidden="true"></i>
-                                                Delete</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                            </tr>
-                            </tbody>
-                            @endforeach
-                            @endif
-                            </table>
-                        </div>
-                        <div>
-                            {{ $users->links() }}
+                                                    <td>
+                                                        <div class="action-dots ">
+                                                            <a href="#" class="" data-bs-toggle="dropdown"
+                                                                aria-expanded="false">
+                                                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                                            </a>
+                                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                                <li><a class="dropdown-item"
+                                                                        href="{{ route('admin.users.edit', $user->id) }}"><i
+                                                                            class="fa fa-edit" aria-hidden="true"></i>
+                                                                        Edit</a></li>
+                                                                <li><a class="dropdown-item" href="#"
+                                                                        onclick="removeUser({{ $user->id }})"><i
+                                                                            class="fa fa-trash" aria-hidden="true"></i>
+                                                                        Delete</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        @endforeach
+                                    @endif
+                                </table>
+                            </div>
+                            <div>
+                                {{ $users->links() }}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
     </section>
 @endsection
 
 @section('customJs')
+    <script>
+        function removeUser(id) {
+            if (confirm('Are you sure you want to delete?')) {
+                $.ajax({
+                    url: '{{ route('admin.users.destroy') }}',
+                    type: 'delete',
+                    data: {
+                        id: id
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        window.location.href = '{{ route('admin.users') }}'
+                    }
+                })
+            }
+        }
+    </script>
 @endsection

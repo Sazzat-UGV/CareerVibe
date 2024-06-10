@@ -30,6 +30,7 @@ Route::get('/dashboard',[DashboardController::class,'index'])->name('admin.dashb
 Route::get('/users',[UserController::class,'index'])->name('admin.users');
 Route::get('/users/{id}',[UserController::class,'edit'])->name('admin.users.edit');
 Route::put('/users/update/{id}',[UserController::class,'update'])->name('admin.users.update');
+Route::delete('/users/delete',[UserController::class,'destroy'])->name('admin.users.destroy');
 });
 
 
