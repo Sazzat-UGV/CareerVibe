@@ -40,6 +40,7 @@
                                             <th scope="col">Job Created</th>
                                             <th scope="col">Applicants</th>
                                             <th scope="col">Status</th>
+                                            <th scope="col">Featured</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
@@ -59,10 +60,19 @@
                                                             <div class="job-status text-capitalize">
                                                                 <span class="badge bg-success">Active</span>
                                                             @else
-                                                                <span class="badge bg-danger">Close</span>
+                                                                <span class="badge bg-danger">Block</span>
                                                         @endif
                             </div>
                             </td>
+                            <td>
+                                @if ($job->isFeatured == 1)
+                                    <div class="job-status text-capitalize">
+                                        <span class="badge bg-success">Yes</span>
+                                    @else
+                                        <span class="badge bg-danger">No</span>
+                                @endif
+    </div>
+    </td>
                             <td>
                                 <div class="action-dots float-end">
                                     <a href="#" class="" data-bs-toggle="dropdown" aria-expanded="false">

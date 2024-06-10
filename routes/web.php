@@ -37,6 +37,7 @@ Route::prefix('admin')->middleware(['checkRole'])->group(function () {
     Route::get('/jobs', [AdminJobController::class, 'index'])->name('admin.jobs');
     Route::get('/jobs/{id}', [AdminJobController::class, 'edit'])->name('admin.jobs.edit');
     Route::put('/jobs/update/{id}', [AdminJobController::class, 'update'])->name('admin.jobs.update');
+    Route::delete('/jobs/delete', [AdminJobController::class, 'destroy'])->name('admin.jobs.destroy');
 });
 
 Route::prefix('account')->group(function () {

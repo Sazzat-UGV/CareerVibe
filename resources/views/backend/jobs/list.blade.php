@@ -67,9 +67,9 @@
                                                     <td>
                                                         @if ($job->isFeatured == 1)
                                                             <div class="job-status text-capitalize">
-                                                                <span class="badge bg-success">Featured</span>
+                                                                <span class="badge bg-success">Yes</span>
                                                             @else
-                                                                <span class="badge bg-danger">Featured</span>
+                                                                <span class="badge bg-danger">No</span>
                                                         @endif
                             </div>
                             </td>
@@ -84,7 +84,7 @@
                                         <li><a class="dropdown-item" href="{{ route('admin.jobs.edit', $job->id) }}"><i
                                                     class="fa fa-edit" aria-hidden="true"></i>
                                                 Edit</a></li>
-                                        <li><a class="dropdown-item" href="#" "><i
+                                        <li><a class="dropdown-item" href="#" onclick="deleteJob({{ $job->id }})"><i
                                                                                 class="fa fa-trash" aria-hidden="true"></i>
                                                                             Delete</a></li>
                                                                 </ul>
@@ -108,17 +108,17 @@
 
 @section('customJs')
     <script>
-        function removeUser(id) {
+        function deleteJob(id) {
             if (confirm('Are you sure you want to delete?')) {
                 $.ajax({
-                    url: '{{ route('admin.users.destroy') }}',
+                    url: '{{ route('admin.jobs.destroy') }}',
                     type: 'delete',
                     data: {
                         id: id
                     },
                     dataType: 'json',
                     success: function(response) {
-                        window.location.href = '{{ route('admin.users') }}'
+                        window.location.href = '{{ route("admin.jobs") }}'
                     }
                 })
             }
