@@ -10,7 +10,7 @@
                     <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4">
                         <ol class="breadcrumb mb-0">
                             <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
-                            <li class="breadcrumb-item active">Jobs</li>
+                            <li class="breadcrumb-item active">Job Applications</li>
                         </ol>
                     </nav>
                 </div>
@@ -25,7 +25,7 @@
                         <div class="card-body card-form">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <h3 class="fs-4 mb-1">Jobs</h3>
+                                    <h3 class="fs-4 mb-1">Job Applications</h3>
                                 </div>
 
                             </div>
@@ -33,47 +33,24 @@
                                 <table class="table ">
                                     <thead class="bg-light">
                                         <tr>
-                                            <th scope="col">No.</th>
-                                            <th scope="col">Title</th>
-                                            <th scope="col">Created By</th>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Featured</th>
-                                            <th scope="col">Date</th>
+                                            <th scope="col">Job Title</th>
+                                            <th scope="col">Applied User</th>
+                                            <th scope="col">Employer</th>
+                                            <th scope="col">Applied Date</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                     </thead>
-                                    @if ($jobs->isNotEmpty())
-                                        @foreach ($jobs as $index => $job)
+                                    @if ($applications->isNotEmpty())
+                                        @foreach ($applications as $index => $application)
                                             <tbody class="border-0">
                                                 <tr class="active">
+
                                                     <td>
-                                                        <div class="job-name fw-500">{{ $index + 1 }}</div>
+                                                        <p class="job-name fw-500">{{ $application->job->title }}</p>
                                                     </td>
-                                                    <td>
-                                                        <p class="job-name fw-500">{{ $job->title }}</p>
-                                                        <p class="job-name fw-500">Applicants:
-                                                            {{ $job->applications->count() }}</p>
-                                                    </td>
-                                                    <td>{{ $job->user->name }}</td>
-                                                    <td>
-                                                        @if ($job->status == 1)
-                                                            <div class="job-status text-capitalize">
-                                                                <span class="badge bg-success">Active</span>
-                                                            @else
-                                                                <span class="badge bg-danger">Block</span>
-                                                        @endif
-                            </div>
-                            </td>
-                            <td>
-                                @if ($job->isFeatured == 1)
-                                    <div class="job-status text-capitalize">
-                                        <span class="badge bg-success">Yes</span>
-                                    @else
-                                        <span class="badge bg-danger">No</span>
-                                @endif
-                        </div>
-                        </td>
-                        <td>{{ $job->created_at->format('d M ,Y') }}</td>
+                                                    <td>{{ $application->user->name }}</td>
+                                                    <td>{{ $application->employer->name }}</td>
+                                                    <td>{{ $application->created_at->format('d M, Y') }}</td>
 
                         <td>
                             <div class="action-dots ">
@@ -81,10 +58,8 @@
                                     <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="{{ route('admin.jobs.edit', $job->id) }}"><i
-                                                class="fa fa-edit" aria-hidden="true"></i>
-                                            Edit</a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="deleteJob({{ $job->id }})"><i
+
+                                    <li><a class="dropdown-item" href="#" onclick="deleteJobApplication({{ $application->id }})"><i
                                                 class="fa fa-trash" aria-hidden="true"></i>
                                             Delete</a></li>
                                 </ul>
@@ -97,7 +72,7 @@
                         </table>
                     </div>
                     <div>
-                        {{ $jobs->links() }}
+                        {{ $applications->links() }}
                     </div>
                 </div>
             </div>
@@ -108,7 +83,7 @@
 
 @section('customJs')
     <script>
-        function deleteJob(id) {
+        function deleteJobApplication(id) {
             if (confirm('Are you sure you want to delete?')) {
                 $.ajax({
                     url: '{{ route('admin.jobs.destroy') }}',
