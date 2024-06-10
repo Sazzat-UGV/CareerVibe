@@ -33,8 +33,10 @@ Route::prefix('admin')->middleware(['checkRole'])->group(function () {
     Route::get('/users/{id}', [UserController::class, 'edit'])->name('admin.users.edit');
     Route::put('/users/update/{id}', [UserController::class, 'update'])->name('admin.users.update');
     Route::delete('/users/delete', [UserController::class, 'destroy'])->name('admin.users.destroy');
-// jobs
+    // jobs
     Route::get('/jobs', [AdminJobController::class, 'index'])->name('admin.jobs');
+    Route::get('/jobs/{id}', [AdminJobController::class, 'edit'])->name('admin.jobs.edit');
+    Route::put('/jobs/update/{id}', [AdminJobController::class, 'update'])->name('admin.jobs.update');
 });
 
 Route::prefix('account')->group(function () {
