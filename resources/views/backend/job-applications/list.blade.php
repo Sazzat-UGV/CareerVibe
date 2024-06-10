@@ -52,32 +52,34 @@
                                                     <td>{{ $application->employer->name }}</td>
                                                     <td>{{ $application->created_at->format('d M, Y') }}</td>
 
-                        <td>
-                            <div class="action-dots ">
-                                <a href="#" class="" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end">
+                                                    <td>
+                                                        <div class="action-dots ">
+                                                            <a href="#" class="" data-bs-toggle="dropdown"
+                                                                aria-expanded="false">
+                                                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                                            </a>
+                                                            <ul class="dropdown-menu dropdown-menu-end">
 
-                                    <li><a class="dropdown-item" href="#" onclick="deleteJobApplication({{ $application->id }})"><i
-                                                class="fa fa-trash" aria-hidden="true"></i>
-                                            Delete</a></li>
-                                </ul>
+                                                                <li><a class="dropdown-item" href="#"
+                                                                        onclick="deleteJobApplication({{ $application->id }})"><i
+                                                                            class="fa fa-trash" aria-hidden="true"></i>
+                                                                        Delete</a></li>
+                                                            </ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        @endforeach
+                                    @endif
+                                </table>
                             </div>
-                        </td>
-                        </tr>
-                        </tbody>
-                        @endforeach
-                        @endif
-                        </table>
-                    </div>
-                    <div>
-                        {{ $applications->links() }}
+                            <div>
+                                {{ $applications->links() }}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        </div>
     </section>
 @endsection
 
@@ -86,14 +88,14 @@
         function deleteJobApplication(id) {
             if (confirm('Are you sure you want to delete?')) {
                 $.ajax({
-                    url: '{{ route('admin.jobs.destroy') }}',
+                    url: '{{ route('admin.jobapplications.destroy') }}',
                     type: 'delete',
                     data: {
                         id: id
                     },
                     dataType: 'json',
                     success: function(response) {
-                        window.location.href = '{{ route('admin.jobs') }}'
+                        window.location.href = '{{ route("admin.jobapplications") }}'
                     }
                 })
             }
