@@ -22,7 +22,7 @@
                 <a href="{{ route('admin.users') }}">Users</a>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                <a href="#">Jobs</a>
+                <a href="{{ route('admin.jobs') }}">Jobs</a>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center p-3">
                 <a href="#">Job Applications</a>

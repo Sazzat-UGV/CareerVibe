@@ -18,6 +18,7 @@ class UserSeeder extends Seeder
             'name'=>"Asikul Islam Sazzat",
             'email'=>"admin@gmail.com",
             'password'=>Hash::make('admin@gmail.com'),
+            'role'=>'admin',
         ]);
     }
 }

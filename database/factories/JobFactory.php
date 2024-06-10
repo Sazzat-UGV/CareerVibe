@@ -18,7 +18,7 @@ class JobFactory extends Factory
     {
         return [
            'title'=>fake()->name,
-           'user_id'=>1,
+           'user_id'=>rand(1,5),
            'job_type_id'=>rand(1,4),
            'category_id'=>rand(1,4),
            'vacancy'=>rand(1,5),
@@ -26,6 +26,7 @@ class JobFactory extends Factory
            'description'=>fake()->text,
            'experience'=>rand(1,10),
            'company_name'=>fake()->name,
+           'isFeatured'=>rand(0,1),
         ];
     }
 }
