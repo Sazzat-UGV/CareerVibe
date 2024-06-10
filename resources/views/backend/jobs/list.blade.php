@@ -36,6 +36,8 @@
                                             <th scope="col">No.</th>
                                             <th scope="col">Title</th>
                                             <th scope="col">Created By</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Featured</th>
                                             <th scope="col">Date</th>
                                             <th scope="col">Action</th>
                                         </tr>
@@ -49,38 +51,54 @@
                                                     </td>
                                                     <td>
                                                         <p class="job-name fw-500">{{ $job->title }}</p>
-                                                        <p class="job-name fw-500">Applicants: {{ $job->applications->count() }}</p>
+                                                        <p class="job-name fw-500">Applicants:
+                                                            {{ $job->applications->count() }}</p>
                                                     </td>
                                                     <td>{{ $job->user->name }}</td>
-                                                    <td>{{ $job->created_at->format('d M ,Y') }}</td>
-
                                                     <td>
-                                                        <div class="action-dots ">
-                                                            <a href="#" class="" data-bs-toggle="dropdown"
-                                                                aria-expanded="false">
-                                                                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-                                                            </a>
-                                                            <ul class="dropdown-menu dropdown-menu-end">
-                                                                <li><a class="dropdown-item"
-                                                                        href="{{ route('admin.jobs.edit',$job->id) }}"><i
-                                                                            class="fa fa-edit" aria-hidden="true"></i>
-                                                                        Edit</a></li>
-                                                                <li><a class="dropdown-item" href="#"
-                                                                        "><i
-                                                                            class="fa fa-trash" aria-hidden="true"></i>
-                                                                        Delete</a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        @endforeach
-                                    @endif
-                                </table>
+                                                        @if ($job->status == 1)
+                                                            <div class="job-status text-capitalize">
+                                                                <span class="badge bg-success">Active</span>
+                                                            @else
+                                                                <span class="badge bg-danger">Block</span>
+                                                        @endif
                             </div>
-                            <div>
-                                {{ $jobs->links() }}
+                            </td>
+                                                    <td>
+                                                        @if ($job->isFeatured == 1)
+                                                            <div class="job-status text-capitalize">
+                                                                <span class="badge bg-success">Featured</span>
+                                                            @else
+                                                                <span class="badge bg-danger">Featured</span>
+                                                        @endif
                             </div>
+                            </td>
+                            <td>{{ $job->created_at->format('d M ,Y') }}</td>
+
+                            <td>
+                                <div class="action-dots ">
+                                    <a href="#" class="" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item" href="{{ route('admin.jobs.edit', $job->id) }}"><i
+                                                    class="fa fa-edit" aria-hidden="true"></i>
+                                                Edit</a></li>
+                                        <li><a class="dropdown-item" href="#" "><i
+                                                                                class="fa fa-trash" aria-hidden="true"></i>
+                                                                            Delete</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+     @endforeach
+                                                @endif
+                                                </table>
+                                </div>
+                                <div>
+                                    {{ $jobs->links() }}
+                                </div>
                         </div>
                     </div>
                 </div>

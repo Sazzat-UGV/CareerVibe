@@ -87,6 +87,32 @@
                                     </div>
                                 </div>
 
+                                <div class="row">
+                                    <div class="mb-4 col-md-6">
+                                        <div class="form-check">
+                                            <input  {{ ($job->isFeatured==1)?'checked':'' }} class="form-check-input" type="checkbox" value="1" id="isFeatured" name="isFeatured">
+                                            <label class="form-check-label" for="isFeatured">
+                                              Featured
+                                            </label>
+                                          </div>
+                                    </div>
+                                    <div class="mb-4 col-md-6">
+                                        <div class="form-check-inline">
+                                            <input {{ ($job->status==1)?'checked':'' }} class="form-check-input" type="radio" value="1" id="status-active" name="status">
+                                            <label class="form-check-label" for="status">
+                                              Active
+                                            </label>
+                                          </div>
+
+                                        <div class="form-check-inline">
+                                            <input  {{ ($job->status==0)?'checked':'' }} class="form-check-input" type="radio" value="0" id="status-block" name="status">
+                                            <label class="form-check-label" for="status">
+                                              Block
+                                            </label>
+                                          </div>
+                                    </div>
+                                </div>
+
                                 <div class="mb-4">
                                     <label for="" class="mb-2">Description<span class="req">*</span></label>
                                     <textarea class="form-control" name="description" id="description" cols="5" rows="5"
@@ -212,7 +238,7 @@
                         $('#company_name').removeClass('is-invalid').siblings('p').removeClass(
                                 'invalid-feedback')
                             .html('')
-                        window.location.href = "{{ url()->current() }}"
+                        window.location.href = "{{ route('admin.jobs') }}"
                     } else {
                         var errors = response.errors;
                         if (errors.title) {

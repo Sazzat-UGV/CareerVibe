@@ -53,6 +53,8 @@ class JobController extends Controller
             $job->responsibility = $request->responsibility;
             $job->qualifications = $request->qualifications;
             $job->keywords = $request->keywords;
+            $job->status = $request->status;
+            $job->isFeatured = filled($request->isFeatured);
             $job->experience = $request->experience;
             $job->company_name = $request->company_name;
             $job->company_location = $request->company_location;
