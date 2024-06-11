@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ResetPasswordEmail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Image;
 
 class AccountController extends Controller
@@ -187,4 +191,67 @@ class AccountController extends Controller
         ]);
     }
 
+    public function forgotPassword()
+    {
+        return view('frontend.account.forgot-password');
+    }
+
+    public function processForgotPassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('account.forgotPassword')->withInput()->withErrors($validator);
+        }
+
+        $token = Str::random(60);
+        DB::table('password_reset_tokens')->where('email', $request->email)->delete();
+        DB::table('password_reset_tokens')->insert([
+            'email' => $request->email,
+            'token' => $token,
+            'created_at' => now(),
+        ]);
+        // Send email
+        $user = User::where('email', $request->email)->first();
+        $mailData = [
+            'token' => $token,
+            'user' => $user,
+            'subject' => 'You have requested to change your password.',
+        ];
+        Mail::to($request->email)->send(new ResetPasswordEmail($mailData));
+        return redirect()->route('account.forgotPassword')->with('success', 'Reset password email has been sent to your inbox.');
+    }
+
+    public function resetPassword($token)
+    {
+        $tokenObj = DB::table('password_reset_tokens')->where('token', $token)->first();
+        if ($tokenObj == null) {
+            return redirect()->route('account.forgotPassword')->with('error', 'Invalid token.');
+        }
+        return view('frontend.account.reset-password', compact('token'));
+
+    }
+
+    public function processResetPassword(Request $request)
+    {
+        $tokenObj = DB::table('password_reset_tokens')->where('token', $request->token)->first();
+        if ($tokenObj == null) {
+            return redirect()->route('account.forgotPassword')->with('error', 'Invalid token.');
+        }
+        $validator = Validator::make($request->all(), [
+            'new_password' => 'required|min:5',
+            'confirm_password' => 'required|same:new_password',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('account.resetPassword', $request->token)->withInput()->withErrors($validator);
+        }
+        User::where('email', $tokenObj->email)->update([
+            'password' => Hash::make($request->new_password),
+        ]);
+
+        return redirect()->route('account.login')->with('success', 'You have successfully change your password.');
+    }
 }

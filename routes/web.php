@@ -26,6 +26,13 @@ Route::get('/jobs/detail/{id}', [JobController::class, 'detail'])->name('job.det
 Route::post('/apply-job', [JobController::class, 'applyJob'])->name('job.applyJob');
 Route::post('/saved-job', [JobController::class, 'savedJob'])->name('job.savedJob');
 
+// forgot password
+Route::get('/forgot-password', [AccountController::class, 'forgotPassword'])->name('account.forgotPassword');
+Route::post('/process-forgot-password', [AccountController::class, 'processForgotPassword'])->name('account.processForgotPassword');
+Route::get('/reset-password/{token}', [AccountController::class, 'resetPassword'])->name('account.resetPassword');
+Route::post('/process-reset-password', [AccountController::class, 'processResetPassword'])->name('account.processResetPassword');
+
+
 // admin route
 Route::prefix('admin')->middleware(['checkRole'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');

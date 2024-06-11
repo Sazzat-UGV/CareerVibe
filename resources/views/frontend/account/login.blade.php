@@ -35,7 +35,7 @@ is-invalid
                             </div>
                             <div class="justify-content-between d-flex">
                                 <button class="btn btn-primary mt-2" type="submit">Login</button>
-                                <a href="forgot-password.html" class="mt-3">Forgot Password?</a>
+                                <a href="{{ route('account.forgotPassword') }}" class="mt-3">Forgot Password?</a>
                             </div>
                         </form>
                     </div>
