@@ -95,7 +95,7 @@
                                             <div class="card border-0 p-3 shadow mb-4">
                                                 <div class="card-body">
                                                     <h3 class="border-0 fs-5 pb-2 mb-0">{{ $job->title }}</h3>
-                                                    <p>{!! Str::words($job->description, 10, '...') !!}</p>
+                                                    <p>{!! Str::words($job->description, 10, '') !!}</p>
                                                     <div class="bg-light p-3 border">
                                                         <p class="mb-0">
                                                             <span class="fw-bolder"><i class="fa fa-map-marker"></i></span>
@@ -120,8 +120,8 @@
                                             </div>
                                         </div>
                                     @endforeach
-                                    <div class="col-md-12">
-                                        {{ $jobs->withQueryString()->links() }}
+                                    <div class="col-12 pagination d-flex justify-content-end">
+                                        {{ $jobs->withQueryString()->links('vendor.pagination.custom') }}
                                     </div>
                                 @else
                                     <div class="col-md-12">Jobs not found!</div>

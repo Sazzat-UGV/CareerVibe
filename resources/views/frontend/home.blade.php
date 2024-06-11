@@ -9,8 +9,8 @@
             <div class="row">
                 <div class="col-12 col-xl-8">
                     <h1>Find your dream job</h1>
-                    <p>Thounsands of jobs available.</p>
-                    <div class="banner-btn mt-5"><a href="#" class="btn btn-primary mb-4 mb-sm-0">Explore Now</a></div>
+                    <p>{{ $allJobs }}+ of jobs available.</p>
+                    <div class="banner-btn mt-5"><a href="{{ route('jobs') }}" class="btn btn-primary mb-4 mb-sm-0">Explore Now</a></div>
                 </div>
             </div>
         </div>
@@ -33,7 +33,6 @@
                             @if($newCategories->isNotEmpty())
                             @foreach ($newCategories as $ncategory)
                             <option value="{{ $ncategory->id }}">{{ $ncategory->name }}</option>
-
                             @endforeach
                             @endif
                         </select>
@@ -62,7 +61,10 @@
                         <a href="{{ route('jobs').'?category='.$category->id}}">
                             <h4 class="pb-2">{{ $category->name }}</h4>
                         </a>
-                        <p class="mb-0"> <span>0</span> Available position</p>
+                        @php
+                            $availablePosition=\app\Models\Job::where('category_id',$category->id)->sum('vacancy');
+                        @endphp
+                        <p class="mb-0"> <span>{{ $availablePosition }}</span> Available position</p>
                     </div>
                 </div>
                 @endforeach

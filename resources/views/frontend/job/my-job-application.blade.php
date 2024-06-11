@@ -9,8 +9,8 @@
                 <div class="col">
                     <nav aria-label="breadcrumb" class=" rounded-3 p-3 mb-4">
                         <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Account Settings</li>
+                            <li class="breadcrumb-item"><a href="{{ route('account.profile') }}">Home</a></li>
+                            <li class="breadcrumb-item active">Jobs Applied</li>
                         </ol>
                     </nav>
                 </div>
@@ -46,7 +46,8 @@
                                                 <tr class="active">
                                                     <td>
                                                         <div class="job-name fw-500">{{ $jobApplication->job->title }}</div>
-                                                        <div class="info1">{{ $jobApplication->job->jobType->name }} . {{ $jobApplication->job->location }}
+                                                        <div class="info1">{{ $jobApplication->job->jobType->name }} .
+                                                            {{ $jobApplication->job->location }}
                                                         </div>
                                                     </td>
                                                     <td>{{ $jobApplication->created_at->format('d M, Y') }}</td>
@@ -66,8 +67,9 @@
                                         <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end">
-                                        <li><a class="dropdown-item" href="{{ route('job.detail', $jobApplication->job_id) }}"> <i class="fa fa-eye"
-                                                    aria-hidden="true"></i>
+                                        <li><a class="dropdown-item"
+                                                href="{{ route('job.detail', $jobApplication->job_id) }}"> <i
+                                                    class="fa fa-eye" aria-hidden="true"></i>
                                                 View</a></li>
 
                                         <li><a class="dropdown-item" href="#"
@@ -95,14 +97,14 @@
                     function removeJob(id) {
                         if (confirm('Are you sure you want to delete?')) {
                             $.ajax({
-                                url: '{{ route("account.removeJobs") }}',
+                                url: '{{ route('account.removeJobs') }}',
                                 type: 'post',
                                 data: {
                                     id: id
                                 },
                                 dataType: 'json',
                                 success: function(response) {
-                                    window.location.href='{{ route("account.myJobApplications") }}'
+                                    window.location.href = '{{ route('account.myJobApplications') }}'
                                 }
                             })
                         }
