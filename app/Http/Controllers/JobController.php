@@ -215,7 +215,7 @@ class JobController extends Controller
         if ($job == null) {
             abort(404);
         }
-        $count=0;
+        $count = 0;
         if (Auth::user()) {
             $count = SavedJob::where(['user_id' => Auth::user()->id, 'job_id' => $id])->count();
         }
@@ -261,7 +261,14 @@ class JobController extends Controller
         $application->employer_id = $employer_id;
         $application->applied_date = now();
         $application->save();
-
+//Send Notification Email to Employer
+        $employer = User::where('id', $employer_id)->first();
+        $mailData = [
+            'employer' => $employer,
+            'user' => Auth::user(),
+            'job' => $job,
+        ];
+        Mail::to($employer->email)->send(new JobNotificationEmail($mailData));
 
         session()->flash('success', 'You have successfully applied.');
         return response()->json([
