@@ -19,8 +19,8 @@ class DatabaseSeeder extends Seeder
         //     JobTypeSeeder::class,
         // ]);
 
-        \App\Models\User::factory(10)->create();
-        \App\Models\Job::factory(10)->create();
+        // \App\Models\User::factory(10)->create();
+        \App\Models\Job::factory(453)->create();
 
     }
 }
